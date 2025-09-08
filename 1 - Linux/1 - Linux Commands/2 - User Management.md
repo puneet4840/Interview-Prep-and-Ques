@@ -105,3 +105,64 @@ passwd
 ```
 sudo passwd testusr
 ```
+
+<br>
+
+### usermod
+
+Ye command ek existing user account modify karne ke liye hoti hai. Isse user ko groups mein add, shell change, home directory change, etc. kar sakte ho.
+
+Syntax:
+```
+sudo usermod [options] username
+```
+
+Examples:
+- User ko ek group mein add karna:
+```
+sudo usermod -aG sudo testusr
+```
+- sudo=group
+- testuser=user
+- Iska matlab hu, testuser ko sudo ke group main add kar rhe hain.
+
+<br>
+
+### deluser
+
+Ye command ek user ko delete karne ke liye hoti hai. Isme user ka home directory default delete nahi hota.
+
+Syntax:
+```
+sudo deluser username
+```
+
+Examples:
+- User delete karna:
+```
+sudo deluser testusr
+```
+
+- User aur uska home directory delete karna:
+```
+sudo deluser --remove-home testusr
+```
+
+<br>
+
+### groupdel
+
+Ye command ek group ko delete karne ke liye hoti hai.
+
+Syntax:
+```
+sudo groupdel groupname
+```
+
+Examples:
+- Ek group delete karna:
+```
+sudo groupdel developers
+```
+- Agar koi user abhi bhi us group ka member hai to group delete nahi hoga.
+
