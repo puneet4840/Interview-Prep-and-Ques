@@ -166,3 +166,79 @@ sudo groupdel developers
 ```
 - Agar koi user abhi bhi us group ka member hai to group delete nahi hoga.
 
+<br>
+
+### groups
+
+Ye command ek user kitne groups main add hai usko check karti hai.
+
+Syntax:
+```
+groups username
+```
+
+Examples:
+- Current user ke groups dekhna:
+```
+groups
+```
+
+- Specific user ke groups dekhna:
+```
+groups testusr
+```
+
+<br>
+
+### usermod -aG
+
+Ye ek special option hai jo ek user ko kisi additional group mein add karne ke liye hota hai (bina uske existing groups ko hataye).
+
+Syntax:
+```
+sudo usermod -aG groupname username
+```
+
+Examples:
+- User ko sudo group mein add karna:
+```
+sudo usermod -aG sudo testusr
+```
+
+- User ko multiple groups mein add karna:
+```
+sudo usermod -aG developers,docker testusr
+```
+
+<br>
+<br>
+
+## Real-World Example Scenario
+
+Maan lo tumhe ek project ke liye naye developers ko onboard karna hai:
+
+1 - Ek group create karo sab developers ke liye:
+```
+sudo groupadd developers
+```
+
+2 - Ek user add karo ek developer ke liye:
+```
+sudo adduser dev1
+```
+
+3 - User ko developers group mein add karo:
+```
+sudo usermod -aG developers dev1
+
+4 - Password set/change karo:
+```
+sudo passwd dev1
+```
+
+5 - Jab project complete ho jaye, user ko remove karna hai:
+```
+sudo userdel -r dev1
+sudo groupdel developers
+```
+```
