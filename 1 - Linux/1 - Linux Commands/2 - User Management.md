@@ -211,6 +211,19 @@ sudo usermod -aG developers,docker testusr
 ```
 
 <br>
+
+### whoami
+
+Ye command ye dekhne ke liye hoti hai ki currently konsa user logged in hai.
+
+Example:
+```
+whoami
+```
+
+
+
+<br>
 <br>
 
 ## Real-World Example Scenario
@@ -240,5 +253,4 @@ sudo passwd dev1
 ```
 sudo userdel -r dev1
 sudo groupdel developers
-```
 ```
