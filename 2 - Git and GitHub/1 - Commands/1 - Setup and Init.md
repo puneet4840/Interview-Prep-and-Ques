@@ -1,8 +1,8 @@
 # Setup and Init Commands
 
-<img src="https://drive.google.com/uc?export=view&id=1gUI3n-7BQSNMTHKSh51GY_AqqRp1pkBL" width="400" height="160">
+<img src="https://drive.google.com/uc?export=view&id=1gUI3n-7BQSNMTHKSh51GY_AqqRp1pkBL" width="450" height="260">
 
-<img src="https://drive.google.com/uc?export=view&id=1Qg9945w--E7mbVdDzlEh3FvweDE-kWO4" width="100" height="160">
+<img src="https://drive.google.com/uc?export=view&id=1Qg9945w--E7mbVdDzlEh3FvweDE-kWO4" width="450" height="260">
 
 <br>
 <br>
