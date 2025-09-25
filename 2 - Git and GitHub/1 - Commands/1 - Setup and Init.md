@@ -7,6 +7,10 @@
 <br>
 <br>
 
+## Setup Commands
+
+<br>
+
 ### git config ka basic matlab
 
 ```git config``` Git ka configuration command hai. Isse tum Git ki settings set kar sakte ho, jaise:
@@ -132,3 +136,31 @@ user.name=Puneet Sharma
 user.email=puneet.sharma@example.com
 color.ui=auto
 ```
+
+<br>
+<br>
+
+## Init commands
+
+**git init**:
+
+Ye command git ki ek empty repository create karti hai, aur jab kisi folder main ```.git``` folder aa jaye to usko git repository kehte hain.
+
+Example:
+```
+git init
+```
+
+<br>
+<br>
+
+**git clone [url]**:
+
+Ye command remote git repository ko local system main copy karne ke liye use hoti hai, suppose tumne GitHub ya BitBucket pe ek repository create ki hui hai, ab tum usko apne local system main copy karne chahte ho to ```git clone [url]``` command se apne system main copy kar sakte ho.
+
+Example:
+```
+git clone [url]
+```
+- ```url```: Remote git repository ks url yaha dena hota hai.
+
