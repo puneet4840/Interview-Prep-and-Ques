@@ -6,7 +6,7 @@
 
 <br>
 
-- **git status**:
+### git status
 
 Tumhare working directory aur staging area ka current status dikhata hai, jaise:
 - Kaunse files modify hui hain par staged nahi hain.
@@ -37,7 +37,7 @@ Is output se tum turant samajh sakte ho kya staged hai aur kya nahi.
 <br>
 <br>
 
-- **git add [file]**:
+### git add [file]
 
 - Files ko working directory se staging area main leke jata hai.
 - Staging area vo area hota hai jaha files ko next commit karne ke liye ready rekhte hain. Files ko directly working directory se commit nahi kar sakte hain. Staging are isliye hota hai ki aap decide kar sako konsi file commit karni hai aur konsi nahi.
