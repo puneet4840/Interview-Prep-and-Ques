@@ -79,7 +79,7 @@ Switched to branch 'feature-login'
 
 Ab tum ```feature-login``` branch par ho aur jo bhi commit karoge us branch ki history me jayega.
 
-**Tip**: Git 2.23+ me ye kaam git switch branchname se bhi hota hai (clearer command).
+**Tip**: Git 2.23+ me ye kaam ```git switch branchname``` se bhi hota hai (clearer command).
 
 Example:
 ```
