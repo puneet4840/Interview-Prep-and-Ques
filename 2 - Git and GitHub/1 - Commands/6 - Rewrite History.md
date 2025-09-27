@@ -15,7 +15,7 @@ Git mein humare paas branches hoti hain. Jab alag-alag branches par alag commits
 Normally, agar hume ek branch ke commits doosri branch mein lana ho to hum ```git merge``` karte hain. Isse ek merge commit ban jata hai, aur history thodi complex ho jati hai (zig-zag).
 
 git rebase ek alternative hai merge ka. Ye kya karta hai:
-- Tumhari current branch ke commits ko pick karke, ek naye base par replay karta hai.
+- Tumhari current branch ke commits ko pick karke, ek naye base par replay karta hai. Matalb Tumhari branch ke commits ko nayi branch ke latest commit ke upar dobara lagata hai (history clean ho jati hai).
 - Matlab tumhari branch ka base change ho jata hai, jaise ki wo latest main branch se hi nikli ho.
 
 Isse commit history linear ho jati hai (seedhi line me), jo clean aur samajhne me easy hoti hai.
@@ -90,3 +90,32 @@ Tum pick ko squash me badal sakte ho agar tum dono commits ko combine karna chah
 <br>
 
 ### git reset --hard [commit]
+
+Ye command thoda dangerous hai.
+
+Iska command ka matlab: “Mujhe ek purane commit tak le jao aur uske baad ke saare changes mita do.”
+
+Tumhari branch ko kisi purane commit pe le jaata hai aur uske baad ke saare changes hata deta hai (dangerous).
+
+Example Situation:
+```
+A---B---C---D---E   (tumhari branch yahan hai)
+```
+
+Ab tumhe lagta hai ki ```C``` ke baad sab galat ho gaya. Tum wapas ```B``` tak jaana chahte ho.
+
+Agar tum ye chalao:
+```
+git reset --hard B
+```
+
+Result:
+```
+A---B   (tumhari branch yahan aa gayi)
+```
+
+Matlab kya hua?
+- ```C, D, E``` waale commits gayab ho gaye.
+- Tumhari working directory bhi waise hi ho gayi jaise commit ```B``` ke time thi.
+
+Warning: Ye commits wapas nahi milenge (agar backup nahi hai).
