@@ -142,3 +142,82 @@ systemd (PID 1)          ← Sabse pehla process
    │
    └── aur bhi services (cron, sshd, etc.)
 ```
+
+<br>
+<br>
+
+
+## Commands
+
+<br>
+
+### 1 - ps – Process Status
+
+```ps``` ka matlab hai process status. Ye command tumhare system par current mein chal rahe processes ki information dikhati hai. Matlab tum dekh sakte ho kaun kaunsa process chal raha hai, uska PID kya hai, kaunse user ke under hai, kitni memory use kar raha hai, etc.
+
+Jab tum sirf ```ps``` command likhte ho to ye sirf current terminal mein chal rhi process ko dikhayegi.
+
+Syntax:
+```
+ps [options]
+```
+
+Example:
+- Display running process in your current terminal:
+```
+ps
+```
+Output:
+```
+    PID TTY          TIME CMD
+   2545 pts/4    00:00:00 bash
+   3555 pts/4    00:00:00 ps
+```
+```
+  - PID: Process Id
+  - TTY: Terminal associated with the process.
+  - Time: The amount of CPU time a process has consumed. It means how long a process is being running.
+  - CMD: The command that was used to start the process.
+```
+
+- Display all processes running in your system:
+```
+ps -A
+```
+
+- Display all processes in full format It display all process in long format:
+```
+ps -AF
+```
+Output:
+```
+UID          PID    PPID  C    SZ   RSS PSR STIME TTY          TIME CMD
+root           1       0  0  5466 13140   6 15:01 ?        00:00:04 /sbin/init
+root           2       1  0   654  1440  11 15:01 ?        00:00:00 /init
+root           6       2  0   654   132   5 15:01 ?        00:00:00 plan9 --control-socket 6 --log-level 4 --server-fd 7 --pipe-fd 9
+root          60       1  0 20832 24084   4 15:01 ?        00:00:05 /usr/lib/systemd/systemd-journald
+root         103       1  0  5995  6060  10 15:01 ?        00:00:03 /usr/lib/systemd/systemd-udevd
+```
+```
+  - UID: User Id. It identifies which user is running the process.
+  - PID: Process Id. A unique identifier for the process.
+  - PPID: Parent Process Id. This shows which process started the current process.
+  - C: CPU Usage. This shows the percentage of cpu time used by the process.
+  - STIME: Start time of process. Indicates when the process was started.
+  - TTY: Terminal Type. Indicates the terminal from which the process was started.
+  - CMD: The command that was used to start the process.
+```
+
+- Display process for all user in user-oriented format including which are not associated with your terminal:
+```
+ps aux
+```
+```
+a: Display process for all users.
+u: Display process in user-oriented format.
+x: Display process that are not attached to your terminal. This includes background processes.
+```
+
+<br>
+
+### systemctl - Systemd Service Manager
