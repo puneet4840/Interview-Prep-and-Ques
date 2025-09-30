@@ -221,3 +221,115 @@ x: Display process that are not attached to your terminal. This includes backgro
 <br>
 
 ### systemctl - Systemd Service Manager
+
+```systemctl``` ek Linux ka command-line tool hai jo Linux systemd process ke upar bana hai aur system services, processes, aur units ko manage karta hai. Isse tum system ki services ko start, stop, restart, enable, disable, mask, unmask aur status check kar sakte ho.
+
+```systemctl``` ek tool hai jo systemd units (services, targets, sockets, timers, etc.) ko manage karta hai.
+
+Iska kaam hai:
+- Services ko manage karna (jaise ki ssh, apache, mysql).
+- Units ko control karna (unit matlab service, socket, target, path, timer, etc.).
+- System ke state ko control aur monitor karna.
+
+Syntax:
+```
+systemctl [OPTIONS] COMMAND [NAME]
+```
+- ```COMMAND``` → kya karna hai (start, stop, enable, status, etc.).
+- ```NAME``` → kis service ya unit pe command chalani hai (jaise ```nginx.service```, ```sshd.service```).
+
+**Example: Common systemctl commands**:
+
+- Service ko start karna:
+```
+systemctl start nginx
+```
+Ye command nginx service ko abhi turant start karega.
+
+- Service ko stop karna:
+```
+systemctl stop nginx
+```
+Running service ko band (stop) karne ke liye. 
+
+e.g., Web server me kuch misconfiguration hai aur tum temporarily nginx ko rokna chahte ho.
+
+- Service ko restart karna:
+```
+systemctl restart nginx
+```
+Service ko ek baar band karke phir se start karne ke liye.
+
+e.g., Jab tum config file (```/etc/nginx/nginx.conf```) me change karte ho, tumhe service ko restart karna padta hai taaki naye configs load ho.
+
+- Service ko reload karna:
+```
+systemctl reload nginx
+```
+Service ko bina band kiye config files reload karwane ke liye
+
+e.g., Nginx me tumne ek virtual host add kiya hai aur config reload karna hai bina downtime ke.
+
+- Service ka status dekhna:
+```
+systemctl status nginx
+```
+Kisi bhi service ka current status aur details dekhne ke liye yeh command use hoti hai.
+
+Output me milega:
+  - Active/inactive (running ya stopped).
+  - PID aur processes list.
+  - Logs (last few journalctl entries).
+
+- Service ko enable karna (boot ke time auto start):
+```
+systemctl enable nginx
+```
+Agar tum chahte ho ki nginx server system restart hone par khud se restart ho jaye to nginx ko enable karna hoga.
+
+e.g., Agar tumhe chahiye ki machine restart hone par nginx automatically start ho jaye → use enable.
+
+- Service ko disable karna (boot ke time auto start na ho):
+```
+systemctl disable nginx
+```
+Is command se reboot ke baad service auto start nahi hogi.
+
+- Service ko mask (matlab disable) karna:
+```
+systemctl mask nginx
+```
+Ye command service ko completely disable kar deti hai.
+
+e.g., Isse service completely disable ho jati hai (koi start nahi kar sakta manually bhi).
+
+- Service ko unmask (matlab enable) karna:
+```
+systemctl unmask nginx
+```
+Isse service wapas usable ho jati hai.
+e.g., Agar koi service galti se system ke stability kharab kar rahi hai aur tum chahte ho ki koi user galti se use start na kare.
+
+- System ko reboot/shutdown karna:
+```
+systemctl reboot
+systemctl poweroff
+systemctl halt
+```
+  - ```reboot``` → system restart hoga.
+  - ```poweroff``` → machine shutdown hogi.
+  - ```halt``` → CPU ko stop kar deta hai but power off nahi karta.
+
+- All active services list karna:
+```
+systemctl list-units --type=service
+```
+Ye command tumko active service ki list dikhayegi.
+
+- All active-inactive services list karna:
+```
+systemctl list-unit-files --type=service
+```
+Ye command tumko sabhi active, inactive, masked, unmasked service dikhayegi.
+
+- 
