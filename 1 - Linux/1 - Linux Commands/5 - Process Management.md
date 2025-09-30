@@ -238,15 +238,17 @@ systemctl [OPTIONS] COMMAND [NAME]
 - ```COMMAND``` → kya karna hai (start, stop, enable, status, etc.).
 - ```NAME``` → kis service ya unit pe command chalani hai (jaise ```nginx.service```, ```sshd.service```).
 
+<br>
+
 **Example: Common systemctl commands**:
 
-- Service ko start karna:
+- **Service ko start karna**:
 ```
 systemctl start nginx
 ```
 Ye command nginx service ko abhi turant start karega.
 
-- Service ko stop karna:
+- **Service ko stop karna**:
 ```
 systemctl stop nginx
 ```
@@ -254,7 +256,7 @@ Running service ko band (stop) karne ke liye.
 
 e.g., Web server me kuch misconfiguration hai aur tum temporarily nginx ko rokna chahte ho.
 
-- Service ko restart karna:
+- **Service ko restart karna**:
 ```
 systemctl restart nginx
 ```
@@ -262,7 +264,7 @@ Service ko ek baar band karke phir se start karne ke liye.
 
 e.g., Jab tum config file (```/etc/nginx/nginx.conf```) me change karte ho, tumhe service ko restart karna padta hai taaki naye configs load ho.
 
-- Service ko reload karna:
+- **Service ko reload karna**:
 ```
 systemctl reload nginx
 ```
@@ -270,7 +272,7 @@ Service ko bina band kiye config files reload karwane ke liye
 
 e.g., Nginx me tumne ek virtual host add kiya hai aur config reload karna hai bina downtime ke.
 
-- Service ka status dekhna:
+- **Service ka status dekhna**:
 ```
 systemctl status nginx
 ```
@@ -281,7 +283,7 @@ Output me milega:
   - PID aur processes list.
   - Logs (last few journalctl entries).
 
-- Service ko enable karna (boot ke time auto start):
+- **Service ko enable karna (boot ke time auto start)**:
 ```
 systemctl enable nginx
 ```
@@ -289,13 +291,13 @@ Agar tum chahte ho ki nginx server system restart hone par khud se restart ho ja
 
 e.g., Agar tumhe chahiye ki machine restart hone par nginx automatically start ho jaye → use enable.
 
-- Service ko disable karna (boot ke time auto start na ho):
+- **Service ko disable karna (boot ke time auto start na ho)**:
 ```
 systemctl disable nginx
 ```
 Is command se reboot ke baad service auto start nahi hogi.
 
-- Service ko mask (matlab disable) karna:
+- **Service ko mask (matlab disable) karna**:
 ```
 systemctl mask nginx
 ```
@@ -303,14 +305,14 @@ Ye command service ko completely disable kar deti hai.
 
 e.g., Isse service completely disable ho jati hai (koi start nahi kar sakta manually bhi).
 
-- Service ko unmask (matlab enable) karna:
+- **Service ko unmask (matlab enable) karna**:
 ```
 systemctl unmask nginx
 ```
 Isse service wapas usable ho jati hai.
 e.g., Agar koi service galti se system ke stability kharab kar rahi hai aur tum chahte ho ki koi user galti se use start na kare.
 
-- System ko reboot/shutdown karna:
+- **System ko reboot/shutdown karna**:
 ```
 systemctl reboot
 systemctl poweroff
@@ -320,16 +322,15 @@ systemctl halt
   - ```poweroff``` → machine shutdown hogi.
   - ```halt``` → CPU ko stop kar deta hai but power off nahi karta.
 
-- All active services list karna:
+- **All active services list karna**:
 ```
 systemctl list-units --type=service
 ```
 Ye command tumko active service ki list dikhayegi.
 
-- All active-inactive services list karna:
+- **All active-inactive services list karna**:
 ```
 systemctl list-unit-files --type=service
 ```
 Ye command tumko sabhi active, inactive, masked, unmasked service dikhayegi.
 
-- 
