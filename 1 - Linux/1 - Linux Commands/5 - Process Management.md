@@ -144,6 +144,45 @@ systemd (PID 1)          ← Sabse pehla process
 ```
 
 <br>
+
+### Zombie Process
+
+Zombie process ek aisa process hota hai jo terminate ho chuka hai, lekin abhi bhi system ke process table mein entry bana ke rakhta hai, kyunki iska parent process uska exit status abhi tak collect nahi karta (wait() system call se).
+
+- Jab koi child process apna kaam complete kar ke exit kar jata hai, toh wo OS ko batata hai ki main khatam ho gaya.
+- Parent process ko uski termination ki information (exit status) lena padta hai. Agar parent process wait() ya waitpid() nahi chalata, toh OS child ka process table entry remove nahi karta. Tab wo process zombie ban jata hai—matlab technically dead hai, but OS process table mein abhi bhi entry hai.
+- Zombie process koi CPU time nahi use karta, bas ek choti si memory/process table entry occupy karta hai.
+- Agar parent properly wait() call kare, toh OS us zombie ko “reap” kar deta hai (entry hatata hai); lekin parent ignore kare ya bug ho toh zombie process ki entry system mein lambi time ke liye ghoomti rahegi.
+
+**Important Points**:
+- Zombie processes mostly child ke form mein bante hain.
+- Unhe normal kill command se hata nahi sakte, kyunki technically process dead hai; parent ko signal bhejna padta hai ya parent ko terminate karna padta hai, toh zombie entry hata di jati hai.
+- Zombie process ka state “Z” hota hai process list mein (ps aux output dekhoge toh STAT=Z dikhega).
+
+**How to kill Zombie Process**:
+- Zombie ko remove karne ka sahi tareeka hai parent process ko terminate karna ya usse SIGCHLD signal bhejna taki woh apne child ka exit status collect kar le.
+
+Zombie Process Delete Karne Ke Steps:
+- Zombie ki Parent Process ID (PPID) Dhundo:
+```
+ps -A -ostat,pid,ppid | grep -e '[zZ]'
+```
+Is command se tumhe zombie process ka PID aur uska parent PID mil jayega.
+
+- SIGCHLD Signal Bhejna Parent Ko:
+```
+kill -s SIGCHLD <Parent_PID>
+```
+Isse parent process ko signal milta hai ki woh wait() system call run kare aur zombie ko cleanup kare. Lekin har baar yeh kaam karega, yeh guaranteed nahi hai.
+
+- Agar Parent Ignore Kare, Toh Parent Ko Kill Kar Do:
+```
+kill -9 <Parent_PID>
+```
+Jab parent process terminate ho jata hai, zombie process OS ke init process (PID 1) ke under aa jati hai, aur init wo zombie ko cleanup kar deta hai (reap)
+
+
+<br>
 <br>
 
 
