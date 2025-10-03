@@ -72,3 +72,165 @@ Ye 100 bytes ka packets bhejega.
 <br>
 
 ### ifconfig
+
+Kya hota hai:
+- ```ifconfig``` ka full form hai Interface Configuration.
+- Ye ek utility hai jo Linux/Unix systems mein use hoti thi network interfaces (jaise Ethernet, WiFi, loopback, etc.) ko configure aur manage karne ke liye.
+- Isse tum apne system ke network interfaces ka status, IP address, MAC address, aur configuration dekh sakte ho.
+
+Note: Aajkal ke naye Linux distributions (Ubuntu 18.04+, CentOS 7+) mein ifconfig ko deprecated kar diya gaya hai, aur uski jagah ip command (ip addr, ip link) ka use hota hai. Lekin interview aur practical knowledge ke liye ifconfig zaroori hai.
+
+Example: 
+- Interfaces ke details dekhna:
+```
+ifconfig
+```
+Ye tumhare system ke sabhi network interfaces ka detail dikhata hai:
+- Interface name (eth0, wlan0, lo, etc.).
+- IP address (inet).
+- Netmask.
+- Broadcast address.
+- MAC address (ether).
+- RX/TX packets, errors, dropped packets.
+
+<br>
+<br>
+
+### ip
+
+Kya hota hai:
+- ```ip``` ek command-line utility hai jo Linux mein networking interfaces, routing tables aur IP addresses ko manage karne ke liye use hoti hai.
+- Ye iproute2 package ka hissa hai.
+- Ye purane ifconfig, route aur netstat commands ka alternative hai.
+
+Example:
+- **ip address dekhna**:
+```
+ip show addr
+```
+Ye sabhi network interfaces ke IP addresses dikhata hai (IPv4 + IPv6).
+
+- **Interfaces ka status dekhna**:
+```
+ip link show
+```
+
+<br>
+<br>
+
+### netstat
+
+```netstat``` ka full form hai Network Statistics.
+
+Ye command line utility hai jo tumhare system ke network ki information dikhata hai.
+
+Matlab: Ye tumhe bata sakta hai ki kaunse ports open hain, kaunse connections active hain, kitna data bheja/receive hua hai, aur routing ka status kya hai.
+
+**Note**: ```netstat``` ab deprecated hai aur naye Linux systems mein ```ss``` command use karna recommend kiya jata hai. Lekin abhi bhi ```netstat``` knowledge zaroori hai.
+
+<be>
+
+**netstat ke important options**:
+- Active connections dekhna:
+```
+netstat
+```
+By default sabhi active connections, sockets, aur routing tables ka status dikhata hai.
+
+- Listening ports dekhna:
+```
+netstat -l
+```
+Sirf woh ports dikhata hai jo listening state mein hain (yaani server kisi client ki request ka wait kar raha hai).
+
+- Process ke sath ports dekhna:
+```
+netstat -lp
+```
+
+```-p``` option se pata chalega kaunsa process kaunsa port use kar raha hai.
+
+Example output:
+```
+tcp   0   0 0.0.0.0:22   0.0.0.0:*   LISTEN   1234/sshd
+```
+
+Yaha ```1234/sshd``` ka matlab hai ki port 22 (SSH) process sshd use kar raha hai.
+
+- TCP connections dekhna:
+```
+netstat -t
+```
+Sirf TCP protocol ke connections dikhata hai.
+
+- UDP connections dekhna:
+```
+netstat -u
+```
+
+- Continuous output (monitoring ke liye):
+```
+netstat -c
+```
+Har second network stats update hote rahenge.
+
+- Routing table dekhna:
+```
+netstat -r
+```
+Ye tumhare system ka routing table dikhata hai
+
+- Numeric output:
+```
+netstat -n
+```
+Ye output mein sirf IP addresses dikhata hai, hostnames nahi.
+
+- Sab combined ek jagah:
+```
+netstat -tulnp
+```
+- ```-t``` → TCP
+- ```-u``` → UDP
+- ```-l``` → Listening
+- ```-n``` → Numeric (no DNS)
+- ```-p``` → Process
+
+Ye sabse common aur powerful command hai jo tumhe sabhi open ports aur unke processes dikhata hai.
+
+Example Output Explanation:
+```
+netstat -tulnp
+```
+Output:
+```
+Proto Recv-Q Send-Q Local Address      Foreign Address     State       PID/Program name
+tcp   0      0     0.0.0.0:22          0.0.0.0:*          LISTEN      1234/sshd
+udp   0      0     127.0.0.1:323       0.0.0.0:*                     567/chronyd
+```
+Explanation:
+- Proto → Protocol (TCP/UDP).
+- Recv-Q → Receive queue (pending data from client).
+- Send-Q → Send queue (pending data to send).
+- Local Address → Local IP + port jo system use kar raha hai.
+- Foreign Address → Remote IP + port jo connect hai.
+- State → Connection ka state (LISTEN, ESTABLISHED, TIME_WAIT, etc.).
+- PID/Program name → Process ID aur program jo port use kar raha hai
+
+<br>
+<br>
+
+### nslookup
+
+``nslookup``` ka full form hai Name Server Lookup.
+
+Ye ek command-line tool hai jo DNS (Domain Name System) se related queries karne ke liye use hota hai.
+
+Iske through tum check kar sakte ho:
+- Kisi domain ka IP address kya hai.
+- Kisi IP ka domain (reverse lookup).
+- DNS record types (A, AAAA, MX, TXT, NS, CNAME, etc.).
+
+Matlab: Agar tumhe doubt hai ki DNS sahi kaam kar raha hai ya nahi, sabse pehle ```nslookup``` use hota hai.
+
+
