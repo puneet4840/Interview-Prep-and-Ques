@@ -351,11 +351,11 @@ LISTEN         0              4096                                *:9090        
 LISTEN         0              4096                                *:9100                              *:*
 ```
 
-Column              |  Explanation                                                                                                                                                                        
---------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-State               |  Socket ka state — yahan sab LISTEN matlab ye sockets connections sun rahe hain (ready to accept client requests)                                                                   
-Recv-Q              |  Kitne packets receive hone ke liye queue me hain (pending) — 0 matlab koi pending nahi                                                                                             
-Send-Q              |  Kitne packets bhejne ke liye queue me hain — 4096 ya 1000 buffer size dikhata hai                                                                                                  
-Local Address:Port  |  Tumhare machine ka IP aur port jahan ye socket listening mode mein hai. Example:10.255.255.254:domainmatlab port 53 pe DNS service sun rahi hai (domain = port 53 ka symbolic name)
-Peer Address:Port   |  0.0.0.0:*ka matlab koi bhi remote address koi bhi port se connect kar sakta hai (open for all)                                                                                     
-Process             |  Agar available hai toh ye socket ko chalane wali process ka pata deta hai (port kis process ne open kiya) — Example ke output main missing hai, parss -pse milta hai               
+| Column              | Explanation                                                                 |
+|---------------------|-----------------------------------------------------------------------------|
+| State               | Socket ka state — yahan sab LISTEN matlab ye sockets connections sun rahe hain (ready to accept client requests) |
+| Recv-Q              | Kitne packets receive hone ke liye queue mein hain (pending) — 0 matlab koi pending nahi |
+| Send-Q              | Kitne packets bhejne ke liye queue mein hain — 4096 ya 1000 buffer size dikhata hai |
+| Local Address:Port  | Tumhare machine ka IP aur port jahan ye socket listening mode mein hai. Example: `10.255.255.254:domain` matlab port 53 pe DNS service sun rahi hai (domain = port 53 ka symbolic name) |
+| Peer Address:Port   | `0.0.0.0:*` ka matlab koi bhi remote address koi bhi port se connect kar sakta hai (open for all) |
+| Process             | Agar available hai toh ye socket ko chalane wali process ka pata deta hai (port kis process ne open kiya) — Example ke output mein missing hai, par `ss -p` se milta hai |
