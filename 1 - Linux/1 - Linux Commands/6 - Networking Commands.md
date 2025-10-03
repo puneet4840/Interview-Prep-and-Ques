@@ -222,7 +222,7 @@ Explanation:
 
 ### nslookup
 
-``nslookup``` ka full form hai Name Server Lookup.
+```nslookup``` ka full form hai Name Server Lookup.
 
 Ye ek command-line tool hai jo DNS (Domain Name System) se related queries karne ke liye use hota hai.
 
@@ -233,4 +233,129 @@ Iske through tum check kar sakte ho:
 
 Matlab: Agar tumhe doubt hai ki DNS sahi kaam kar raha hai ya nahi, sabse pehle ```nslookup``` use hota hai.
 
+<br>
 
+**nslookup ke basic uses**:
+- Domain ka IP address dekhna (Forward Lookup):
+```
+nslookup www.google.com
+```
+Output:
+```
+Server:         10.255.255.254
+Address:        10.255.255.254#53
+
+Non-authoritative answer:
+Name:   www.google.com
+Address: 172.217.26.100
+Name:   www.google.com
+Address: 2404:6800:4002:830::2004
+```
+
+Server → Kaunsa DNS server use ho raha hai query ke liye. Yahan pe "Server" woh DNS server hai jisko tumhara system ne query bheji thi. Ye by default woh DNS hota hai jo tumhare system/network settings me configured hai (jaise Google ka 8.8.8.8 ya ISP ka koi local DNS).
+
+Address → IP address jo DNS ne diya.
+
+- IP se Domain name dekhna (Reverse Lookup):
+```
+nslookup 142.250.193.78
+```
+Output:
+```
+78.193.250.142.in-addr.arpa    name = bom12s01-in-f14.1e100.net
+```
+Matlab ye IP kis domain se mapped hai.
+
+- Specific DNS server se query karna:
+```
+nslookup www.google.com 8.8.8.8
+```
+By default system ka ```/etc/resolv.conf``` DNS server use hota hai. Lekin tum manually specify kar sakte ho.
+
+Ye query Google Public DNS (8.8.8.8) se karega.
+
+- Interactive Mode:
+```
+nslookup
+```
+Ye tumhe interactive prompt dega.
+
+Output:
+```
+> server 8.8.8.8
+> set type=MX
+> google.com
+```
+Is mode mein tum multiple queries kar sakte ho bina baar-baar command likhe.
+
+<br>
+
+**Real-Life Uses of nslookup**:
+- Website resolve ho rahi hai ya nahi check karna:
+  - Agar ```ping google.com``` fail ho raha hai, to ```nslookup google.com``` se pata chalega DNS issue hai ya network ka.
+
+
+<br>
+<br>
+
+### ss
+
+```ss``` ka full form hai **Socket Statistics**.
+
+Ye ek command-line tool hai jo Linux system ke network sockets (connections) ka detailed info dikhata hai. Matlab network information deti hai.
+
+Iska use system administrators aur DevOps engineers network troubleshooting, monitoring aur debugging ke liye karte hain.
+
+Ye ```netstat``` se zyada fast aur accurate hai, kyunki ye Linux kernel ke netlink interface ka use karta hai.
+
+Sockets basically wo endpoints hain jinpar system pe koi bhi network communication (jaise TCP/UDP connections) hoti hai. System pe kaunse ports kis state main hain, kis process ne kaunse port open kiya hua hai—yeh info ss command se milti hai.
+
+Syntax:
+```
+ss [options]
+```
+
+**Common Uses of ss**:
+- Sabhi TCP connections dekhna:
+```
+ss -t
+```
+Sabhi TCP connection dikhata hai.
+
+- Sabhi UDP connections dekhna:
+```
+ss -u
+```
+Sabhi UDP connections dikhata hai.
+
+- Sabhi listening ports dekhna:
+```
+ss -l
+```
+Sirf woh sockets dikhata hai jo listen mode mein hain (jaise web server, database, etc.).
+
+- Listening TCP ports dekhna:
+```
+ss -lt
+```
+Sirf TCP listening ports dikhata hai,
+
+Example:
+```
+State          Recv-Q         Send-Q                  Local Address:Port                   Peer Address:Port         Process
+LISTEN         0              1000                   10.255.255.254:domain                      0.0.0.0:*
+LISTEN         0              4096                       127.0.0.54:domain                      0.0.0.0:*
+LISTEN         0              4096                    127.0.0.53%lo:domain                      0.0.0.0:*
+LISTEN         0              4096                                *:3000                              *:*
+LISTEN         0              4096                                *:9090                              *:*
+LISTEN         0              4096                                *:9100                              *:*
+```
+
+Column              |  Explanation                                                                                                                                                                        
+--------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+State               |  Socket ka state — yahan sab LISTEN matlab ye sockets connections sun rahe hain (ready to accept client requests)                                                                   
+Recv-Q              |  Kitne packets receive hone ke liye queue me hain (pending) — 0 matlab koi pending nahi                                                                                             
+Send-Q              |  Kitne packets bhejne ke liye queue me hain — 4096 ya 1000 buffer size dikhata hai                                                                                                  
+Local Address:Port  |  Tumhare machine ka IP aur port jahan ye socket listening mode mein hai. Example:10.255.255.254:domainmatlab port 53 pe DNS service sun rahi hai (domain = port 53 ka symbolic name)
+Peer Address:Port   |  0.0.0.0:*ka matlab koi bhi remote address koi bhi port se connect kar sakta hai (open for all)                                                                                     
+Process             |  Agar available hai toh ye socket ko chalane wali process ka pata deta hai (port kis process ne open kiya) — Example ke output main missing hai, parss -pse milta hai               
