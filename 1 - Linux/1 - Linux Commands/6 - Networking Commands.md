@@ -316,25 +316,25 @@ ss [options]
 ```
 
 **Common Uses of ss**:
-- Sabhi TCP connections dekhna:
+- **Sabhi TCP connections dekhna**:
 ```
 ss -t
 ```
 Sabhi TCP connection dikhata hai.
 
-- Sabhi UDP connections dekhna:
+- **Sabhi UDP connections dekhna**:
 ```
 ss -u
 ```
 Sabhi UDP connections dikhata hai.
 
-- Sabhi listening ports dekhna:
+- **Sabhi listening ports dekhna**:
 ```
 ss -l
 ```
 Sirf woh sockets dikhata hai jo listen mode mein hain (jaise web server, database, etc.).
 
-- Listening TCP ports dekhna:
+- **Listening TCP ports dekhna**:
 ```
 ss -lt
 ```
@@ -359,3 +359,52 @@ LISTEN         0              4096                                *:9100        
 | Local Address:Port  | Tumhare machine ka IP aur port jahan ye socket listening mode mein hai. Example: `10.255.255.254:domain` matlab port 53 pe DNS service sun rahi hai (domain = port 53 ka symbolic name) |
 | Peer Address:Port   | `0.0.0.0:*` ka matlab koi bhi remote address koi bhi port se connect kar sakta hai (open for all) |
 | Process             | Agar available hai toh ye socket ko chalane wali process ka pata deta hai (port kis process ne open kiya) — Example ke output mein missing hai, par `ss -p` se milta hai |
+
+Example Line Samjho::
+```
+LISTEN 0 4096 *:3000 *:*
+```
+- Socket TCP ya UDP service port 3000 pe listening mode mein hai.
+- Koi bhi remote IP is port ko connect kar sakta hai (*:*).
+- Receive queue 0 hai, matlab koi pending data nahi hai.
+- Send queue 4096 buffer size dikhata hai matlab kitna data send karna baaki hai.
+
+- **Listening UDP ports dekhna**:
+```
+ss -lu
+```
+Sirf UDP listening ports.
+
+- **All connections with process info**:
+```
+ss -tunap
+```
+Ye ek full detailed output deta hai:
+- ```t``` → TCP
+- ```u``` → UDP
+- ```n``` → Numeric (hostname resolve na ho)
+- ```a``` → All sockets (listening + established)
+- ```p``` → Process info
+
+- **Statistics of connections**:
+```
+ss -s
+```
+Network ka summary stats deta hai:
+- Kitne TCP established hain.
+- Kitne UDP active hain.
+- Kitne listening sockets hain.
+
+Output:
+```
+Total: 209
+TCP:   10 (estab 4, closed 0, orphaned 0, timewait 0)
+
+Transport Total     IP        IPv6
+RAW       0         0         0
+UDP       5         4         1
+TCP       10        5         5
+INET      15        9         6
+FRAG      0         0         0
+```
+
