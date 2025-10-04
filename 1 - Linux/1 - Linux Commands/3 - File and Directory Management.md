@@ -221,3 +221,92 @@ rsync -av --delete /source/ /destination/
 
 Real-World Use Case: Tum apne server ka daily backup remote server par bhejna chahte ho. ```rsync -avz -e ssh /var/www user@backup-server:/data/``` perfect hai.
 
+<br>
+<br>
+
+### ssh
+
+```ssh``` ka full form hai **Secure Shell**.
+
+Ye ek protocol aur command-line utility hai jo remote machines (servers/computers) pe securely connect karne ke liye use hota hai.
+
+Jab tum remote system pe login karna chahte ho aur waha command execute karna chahte ho, to tumhe ```ssh``` use karna padta hai.
+
+<br>
+
+**Kaise secure hai?**:
+- ```ssh``` purane protocols jaise ```telnet``` aur ```rlogin``` ka secure replacement hai.
+- Ye encryption use karta hai (Public Key Cryptography).
+
+Matlab: tumhara username, password aur data plain text me nahi jata, balki encrypted hota hai → isliye secure hai.
+
+<br>
+
+**SSH ka General Syntax**:
+```
+ssh [options] user@hostname
+```
+- ```user``` → remote system ka username.
+- ```hostname``` → remote system ka IP address ya domain name.
+- Options → customizations (port, key file, etc.).
+
+<br>
+
+**Examples**:
+
+**Example 1: Simple remote login**:
+```
+ssh puneet@192.168.1.10
+```
+Ye tumhe ```192.168.1.10``` IP wale server me ```puneet``` user ke taur par login kara dega. Tumse remote system ka password poocha jayega.
+
+**Example 2: Specific port ke saath**:
+```
+ssh -p 2222 puneet@192.168.1.10
+```
+Default SSH port 22 hota hai, lekin agar remote server custom port (jaise 2222) use kar raha ho:
+
+**Example 3: Remote command run karna (login ke bina)**:
+```
+ssh puneet@192.168.1.10 "ls -l /var/www/"
+```
+Ye remote server pe directly ```ls -l /var/www/``` run karega aur output tumhare local terminal me dikhayega.
+
+**Example 4: Private key ke saath login**:
+
+Agar server pe tumne password ke bajaye SSH key authentication enable kiya hai:
+```
+ssh -i ~/.ssh/id_rsa puneet@192.168.1.10
+```
+Yaha ```id_rsa``` tumhari private key hai jo authentication ke liye use hogi. Isse bina passwrod ke hi login ho jata hai.
+
+<br>
+
+**Common Options**:
+- ```-p``` <port> → custom port specify karna.
+- ```-i``` <identity_file> → specific private key use karna.
+- ```-v``` → verbose/debugging mode (connection issues troubleshoot karne ke liye).
+- ```-L``` <local_port>:<remote_host>:<remote_port> → local port forwarding (VPN jaisa).
+- ```-R``` → remote port forwarding.
+- ```-N``` → sirf tunnel banana (koi command run nahi karni).
+- ```-T``` → pseudo-terminal disable karna.
+
+<br>
+
+**SSH Key Authentication (Passwordless login)**:
+- Local machine par key generate karo:
+```
+ssh-keygen -t rsa -b 4096
+```
+Ye ```~/.ssh/id_rsa``` (private key) aur ```~/.ssh/id_rsa.pub``` (public key) banayega.
+
+- Public key ko remote server pe copy karo:
+```
+ssh-copy-id puneet@192.168.1.10
+```
+(ya manually ```~/.ssh/authorized_keys``` me daal do).
+
+- Ab tum password ke bina login kar sakte ho:
+```
+ssh puneet@192.168.1.10
+```
