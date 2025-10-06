@@ -268,3 +268,190 @@ Ye system ke running processes me se pehle 10 processes dikhata hai. Yani jab tu
 <br>
 
 ### tail
+
+```tail``` ek Linux command-line utility hai jo kisi file ke last lines (end portion) ko display karti hai.
+
+Default behavior me ye last 10 lines show karti hai.
+
+Matlab agar file bohot badi hai (jaise log files, CSVs, reports), aur tumhe sirf latest entries ya recent logs dekhne hain — to ```tail``` command best hai.
+
+<br>
+
+**Syntax**:
+```
+tail [options] [file_name]
+```
+
+Example:
+```
+tail /var/log/syslog
+```
+Ye system log file (```/var/log/syslog```) ke aakhri 10 lines dikhata hai.
+
+<br>
+
+**Default Behavior**:
+- Agar tum bina option ke ```tail``` likhoge, to 10 last lines show karega.
+- Ye reverse print nahi karta — sirf end portion ka latest part dikhata hai.
+- File ke andar pointer end se start hota hai aur upar ki direction me data read karta hai.
+
+<br>
+
+**Commonly Used Options**:
+
+| Option        | Description                                       | Example                             | Explanation                                                          |
+| ------------- | ------------------------------------------------- | ----------------------------------- | -------------------------------------------------------------------- |
+| `-n <number>` | Specific number of lines show karne ke liye       | `tail -n 20 /var/log/messages`      | Last 20 lines show karega                                            |
+| `-c <bytes>`  | Specific bytes show karne ke liye                 | `tail -c 50 file.txt`               | File ke last 50 bytes dikhata hai                                    |
+| `-f`          | Follow mode (real-time updates)                   | `tail -f access.log`                | File ke end me agar new line add hoti hai to live update show karega |
+| `-F`          | Similar to `-f`, but reconnects if file recreated | `tail -F /var/log/nginx/access.log` | Useful when log file rotate hoti hai                                 |
+| `--pid=<pid>` | Process ke khatam hone tak output follow karega   | `tail --pid=1234 -f file.log`       | Jaise hi process ID `1234` end hoti hai, tail stop ho jata hai       |
+| `-q`          | Quiet mode — file headers suppress karta hai      | `tail -q file1 file2`               | Multiple file output me header print nahi hota                       |
+| `-v`          | Verbose mode — hamesha header print karta hai     | `tail -v file1 file2`               | Har file ke output ke aage filename print karega                     |
+
+
+<br>
+
+**Examples**:
+
+**Example 1: Default 10 last lines**:
+```
+tail file.txt
+```
+Ye file ke last 10 lines terminal pe show karega.
+
+**Example 2: Specific number of lines (e.g., 15)**:
+```
+tail -n 15 /var/log/syslog
+```
+System log ke last 15 entries show karega.
+
+**Example 3: Last 100 bytes show karna**:
+```
+tail -c 100 file.txt
+```
+File ke aakhri 100 characters/bytes show karega (chahe wo half line ho ya full).
+
+**Example 4: Real-time monitoring (DevOps ke liye sabse common)**:
+```
+tail -f /var/log/nginx/access.log
+```
+Ye continuously file ke end ko monitor karega. Jaise hi naye logs likhe jaayenge, wo terminal pe live show honge. Bahut useful jab tum web server, database, ya application ke logs real-time me dekhna chahte ho.
+
+**Example 5: File rotation ke case me auto-reconnect**:
+```
+tail -F /var/log/nginx/error.log
+```
+Agar log file rotate ho gayi (purani delete aur nayi create ho gayi), tail -F automatically nayi file ko follow karega. Isliye -F production me -f se better hota hai.
+
+**Example 7: Tail + Pipe combination (Powerful use)**:
+```
+journalctl -u nginx | tail -n 20
+```
+Systemd logs me se sirf last 20 lines dikhata hai.
+
+<br>
+<br>
+
+### grep
+
+```grep``` ka full form hai: **Global Regular Expression Print**.
+
+Ye ek command-line text searching tool hai jo kisi file (ya stream) me pattern match karta hai aur matching lines print karta hai.
+
+Matlab: ```grep``` kisi text ya log file ke andar specific word, phrase, ya pattern search karta hai.
+
+<br>
+
+**Syntax**:
+```
+grep [options] pattern [file...]
+```
+
+Example:
+```
+grep "error" /var/log/syslog
+```
+Ye command ```/var/log/syslog``` file me "error" word ko search karega aur jahan-jahan mila hai wo line print karega.
+
+<br>
+
+**Simple Understanding**:
+
+Socho tumhare paas ek bada log file hai — ```app.log```, Aur tumhe dekhna hai ki “database” word kaha-kaha aaya hai. Poora file manually dekhna mushkil hai, to tum simply likhte ho:
+```
+grep "database" app.log
+```
+Aur ```grep``` tumhe sirf wahi lines print karega jisme “database” likha hoga. Yani non-matching lines hide ho jaayengi.
+
+<br>
+
+**Commonly Used Options**:
+
+| Option         | Description                                    | Example                            | Explanation                                  |                   |
+| -------------- | ---------------------------------------------- | ---------------------------------- | -------------------------------------------- | ----------------- |
+| `-i`           | Case-insensitive search                        | `grep -i "error" file.txt`         | “Error”, “ERROR”, “eRrOr” sab match honge    |                   |
+| `-v`           | Invert match (jo match **nahi** hote)          | `grep -v "info" file.txt`          | Info ke alawa sab print karega               |                   |
+| `-r`           | Recursive search (folders ke andar)            | `grep -r "timeout" /etc`           | Subdirectories ke files me bhi search karega |                   |
+| `-n`           | Line numbers ke saath output                   | `grep -n "main" code.py`           | Matching lines ke line numbers show karega   |                   |
+| `-c`           | Sirf count of matches                          | `grep -c "error" app.log`          | Kitni baar “error” aaya hai                  |                   |
+| `-l`           | Sirf filenames jaha match mila                 | `grep -l "error" *.log`            | Bas file names print karega                  |                   |
+| `-H`           | File name show kare (useful in multiple files) | `grep -H "failed" *.log`           | File name ke saath matching line             |                   |
+| `-A <num>`     | Match ke baad <num> lines bhi dikhaye          | `grep -A 3 "failed" log.txt`       | Matching line + next 3 lines                 |                   |
+| `-B <num>`     | Match ke pehle <num> lines bhi dikhaye         | `grep -B 2 "failed" log.txt`       | Previous 2 lines + matching line             |                   |
+| `-C <num>`     | Match ke aage-piche dono side ki lines         | `grep -C 2 "error" file.txt`       | 2 lines before and after                     |                   |
+| `-E`           | Extended regex allow karta hai (ERE)           | `grep -E "error                    | failed"`                                     | Multiple patterns |
+| `-F`           | Fixed string search (no regex)                 | `grep -F "if(x>5)" file.txt`       | Regex characters ignore karega               |                   |
+| `--color=auto` | Matches ko highlight kare                      | `grep --color=auto "fail" log.txt` | Colored output                               |                   |
+
+
+<br>
+
+**Examples**:
+
+**Example 1: Basic search**:
+```
+grep "root" /etc/passwd
+```
+Output me wo saari lines aayengi jisme “root” likha hai.
+
+**Example 2: Case-insensitive search**:
+```
+grep -i "error" /var/log/syslog
+```
+“error”, “Error”, “ERROR” sab match honge.
+
+**Example 3: Invert match (non-matching lines)**:
+```
+grep -v "INFO" app.log
+```
+“INFO” wali lines skip ho jaayengi — useful jab unwanted entries ignore karni ho.
+
+**Example 4: Recursive search**:
+```
+grep -r "Listen" /etc/nginx/
+```
+Nginx configuration ke har file me “Listen” directive search karega.
+
+**Example 5: Show line number**:
+```
+grep -n "server" /etc/nginx/nginx.conf
+```
+Output me har match ke saath line number dikhata hai — useful for debugging.
+
+**Example 6: Count number of matches**:
+```
+grep -c "404" /var/log/nginx/access.log
+```
+Kitni baar 404 error aaya — ek single number me output karega.
+
+**Example 7: Regex (Regular Expression) use karna**:
+```
+grep -E "error|failed|critical" app.log
+```
+Ye 3 alag words me se koi bhi match mila to wo line print karega.
+
+<br>
+<br>
+
+### sed
