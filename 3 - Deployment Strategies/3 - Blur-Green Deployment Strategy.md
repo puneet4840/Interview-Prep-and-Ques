@@ -12,4 +12,4 @@ Blue-Green strategy mein 2 envrionments hote hain, ek Blue Environment jispar cu
 
 Isi ko blue green deployment strategy kehte hain.
 
-<img src="https://drive.google.com/uc?export=view&id=1TTsJm_d2TwJTY9b_33uqHtlLcMlXxudA" width="450" height="260">
+<img src="https://drive.google.com/uc?export=view&id=1TTsJm_d2TwJTY9b_33uqHtlLcMlXxudA" width="550" height="460">
