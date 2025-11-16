@@ -18,6 +18,8 @@ Application ko deploy karne ke kayi sare methods hote hain.
 “Deployment Strategy” ka matlab hota hai:
 - Koi bhi application ke naye version ko existing running version ke upar kaise aur kis tarike se deploy kiya jaaye.
 
+Jab hum apne application ka naya version deploy karte hain, to hum decide karte hain ki purane version ko kaise replace karna hai.
+
 Matlab simple words mein:
 - "Tum apne running application ko update karte ho bina users ko problem diye — uske process ko hum Deployment Strategy bolte hain."
 
