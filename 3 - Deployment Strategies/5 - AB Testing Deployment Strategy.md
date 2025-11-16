@@ -16,7 +16,7 @@ Canary aur A/B testing mein ye hi difference hai ki A/B strategy mein version ka
 
 <br>
 
-<img src="https://drive.google.com/uc?export=view&id=1LPJP0aGHN3vWPPgNFTTKstk1sQBAejDf" width="450" height="460">
+<img src="https://drive.google.com/uc?export=view&id=1LPJP0aGHN3vWPPgNFTTKstk1sQBAejDf" width="550" height="560">
 
 <br>
 
