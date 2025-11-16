@@ -8,6 +8,8 @@ Isme Blue-Green strategy jesa server setup hota hai, jaise 1 server par purana a
 
 Matlab tum app ke naye version ko deploy karte ho, lekin initially sirf 1%, 5%, ya 10% traffic us version par jaata hai. Agar sab kuch theek chalta hai, to gradually 100% traffic nayi version par divert kar dete ho.
 
+Canary Deployment ek progressive delivery strategy hai jisme hum naya version limited users ke liye rollout karte hain,monitor karte hain, aur gradually sab users tak rollout kar dete hain — agar koi problem aaye to turant rollback karte hain — bina downtime aur bina production impact ke.
+
 <br>
 
 <img src="https://drive.google.com/uc?export=view&id=1-YbBLPH4Y-CZta0edBxKGNCAS4HfA2VI" width="450" height="410">
