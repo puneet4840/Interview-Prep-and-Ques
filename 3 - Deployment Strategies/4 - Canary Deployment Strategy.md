@@ -10,12 +10,12 @@ Matlab tum app ke naye version ko deploy karte ho, lekin initially sirf 1%, 5%, 
 
 <br>
 
-<img src="https://drive.google.com/uc?export=view&id=1-YbBLPH4Y-CZta0edBxKGNCAS4HfA2VI" width="500" height="460">
+<img src="https://drive.google.com/uc?export=view&id=1-YbBLPH4Y-CZta0edBxKGNCAS4HfA2VI" width="450" height="410">
 
 <br>
 
-<img src="https://drive.google.com/uc?export=view&id=1gWGXY2muPRIpf14h-slZ9gFR0hOa37go" width="500" height="460">
+<img src="https://drive.google.com/uc?export=view&id=1gWGXY2muPRIpf14h-slZ9gFR0hOa37go" width="450" height="410">
 
 <br>
 
-<img src="https://drive.google.com/uc?export=view&id=109KQoct41nTh5ayHQgCnrSOQbQSFhGZZ" width="500" height="460">
+<img src="https://drive.google.com/uc?export=view&id=109KQoct41nTh5ayHQgCnrSOQbQSFhGZZ" width="450" height="410">
