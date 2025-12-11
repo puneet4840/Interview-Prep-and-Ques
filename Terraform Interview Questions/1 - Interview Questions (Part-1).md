@@ -21,4 +21,101 @@ Terraform import ka use hum tab karte hain jab koi resource pehle se cloud me ma
 
 **Real-Life Example Samjho**:
 
+Socho:
+- Tumne AWS Console se manually ek EC2 instance bana diya.
+- Baad me tumhari company boli:
+  - “Ab se sab kuch Terraform se manage hoga”.
 
+Problem:
+- Terraform ko pata hi nahi hai ki wo EC2 instance exist karta hai.
+- Agar tum directly ```terraform apply``` kar do:
+- Terraform bolega:
+  - “EC2 exist nahi karta, main naya bana deta hoon”
+  - Result: Duplicate EC2 instance ban jayega.
+ 
+Yahin pe aata hai Terraform Import.
+
+**Terraform Import Actual Kaam Kya Karta Hai?**
+
+Terraform import existing resource ko terraform state file (```terraform.tfstate```) ke andar add karta hai, Matlab ab Terraform bolega “Haan, ye resource mere control me hai”.
+
+Terraform import:
+- ```.tf``` file automatically generate nahi karta.
+- Tumhe pehle se resource ka block likhna padta hai.
+
+<br>
+
+**Flow Samjho Step-by-Step**:
+- Tum ```.tf``` file me resource likhte ho.
+- ```terraform import``` chalate ho.
+- Terraform:
+  - AWS se live configuration fetch karta hai, State file me inject karta hai, Ab tum terraform plan karte ho, Terraform compare karta hai:
+  - ```.tf``` vs real infra.
+ 
+<br>
+<br>
+
+### Terraform Taint
+
+Terraform taint ka use hum tab karte hain jab koi resource Terraform ke state me already exist karta hai, matlab terraform ne resource pehle se hi create kar rakha hai, lekin hum usko forcefully destroy & recreate karna chahte hain — chahe configuration change hua ho ya nahi.
+
+**Real-Life Example**:
+
+Socho:
+- Tumhara EC2 instance perfectly Terraform se created hai.
+- Lekin:
+  - Disk corrupted ho gaya.
+  - OS crash ho gaya.
+  - Manual changes ho gaye.
+  - Ya tumhe doubt hai ki instance unhealthy hai.
+ 
+Tum ```terraform plan``` run karoge to terraform bolega, config same hai, mujhe kuch change nhi karna.
+
+Par tum chahte ho:
+- Ki ye resource fir se re-create ho.
+
+TO yaha use hota hai ```terraform taint```.
+
+<br>
+
+**Terraform Taint Actual Me Kya Karta Hai?**:
+
+Terraform taint:
+- Resource ko state file me "tainted = true" mark karta hai.
+- Next ```terraform apply``` me:
+  - Pehle destroy.
+  - Fir recreate.
+
+<br>
+
+**Command**:
+```
+terraform taint aws_instance.my_ec2
+```
+Fir
+```
+terraform apply
+```
+
+<br>
+
+**Kab Use Karte Hain Terraform Taint?**
+
+Jab:
+- Resource corrupted ho.
+- Manual change ho gaya ho.
+- Tum clean rebuild chahte ho.
+- Debugging ke time.
+
+<br>
+
+**Deep Interview Insight (Advanced Point)**
+
+Terraform v0.15+ me:
+- ```terraform taint``` deprecated hone wala hai
+
+Recommended approach:
+```
+terraform apply -replace="aws_instance.my_ec2"
+```
+Ye safe & controlled replacement hota hai.
