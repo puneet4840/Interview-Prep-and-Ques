@@ -1,5 +1,12 @@
 # Terraform Interview Questions (Part-1)
 
+### Questions:
+- Que-1: What is the difference between terraform import and terraform taint?
+- Que-2: How do you manage secrets in Terraform without hardcoding them?
+
+<br>
+<br>
+
 ## Que-1: What is the difference between terraform import and terraform taint?
 
 Iska simple answer ye hai:
@@ -119,3 +126,170 @@ Recommended approach:
 terraform apply -replace="aws_instance.my_ec2"
 ```
 Ye safe & controlled replacement hota hai.
+
+<br>
+<br>
+
+## Que-2: How do you manage secrets in Terraform without hardcoding them?
+
+Ab interviewr ye question puch sakta hai ki, Terraform mein secrets ko kaise manage kare?
+
+To terraform mein secrets ko manage karne ke liye kayi methods hote hain, Jaise:
+- Enviornment Variables ko use karna.
+- Cloud Secret Manager ko use karo, jaise Azure Key Vault/ AWS Secret Manager.
+- CI/CD pipeline mein secret use karne ke liye pipeline variables ka use karo.
+- Terraform Sensitive Variables ka use kar sakte ho.
+
+<br>
+
+### Problem pehle samjho (Sabse Important)
+
+**Problem kya hai?**
+
+Terraform mein jab hum secret se deal karte hain to normally, ```.tf``` files mein secret ko use karke expose kar dete hain jaise password, client secret, database password, API key ko directly ```.tf``` file mein hard code kar dete hain.
+
+Example (galat tareeka):
+```
+client_secret = "123abcd"
+```
+
+OR 
+
+```
+password = 12345
+```
+
+Lekin ye tarika bilkul galat hai, kyuki secrets ko hard karke use karne se secret reveal ho jata hai aur ye ek best practise nhi hai.
+
+Ye kyun galat hai?
+- Code Git me chala jayega.
+- Team ke sab log dekh sakte hain.
+- Hacker ko repo mil gaya → secret leak.
+- Interview me ye bol diya → direct reject.
+
+Isliye interviewer poochta hai: **“Without hardcoding secrets, kaise manage karte ho?”**.
+
+<br>
+
+### Iska Solution
+
+**Golden Rule (Yaad rakhna)**:
+
+Terraform ko secret ka VALUE nahi pata hona chahiye, Bas secret KAHAN se milega ye pata hona chahiye.
+
+<br>
+
+**Method 1: Environment Variable (Sabse simple)**:
+
+Ye method hai ki humko secrets ko system ke Environment Variables mein rakhna hai na ki code mein.
+
+Example:
+
+Step-1: Terraform me variable banao:
+```
+variable "client_secret" {
+  type      = string
+  sensitive = true
+}
+```
+
+Step-2: Secret ko system me set karo:
+
+Local machine pe:
+```
+export TF_VAR_client_secret="my-secret"
+```
+
+**Note**: Terraform automatically ```TF_VAR_``` prefix wale environment variables ko read kar leta hai.
+
+Step-3: Use karo:
+```
+client_secret = var.client_secret
+```
+
+Benefits:
+- Secret code me nahi jata.
+- Git me nahi jata.
+- CI/CD pipelines me easily inject hota hai.
+
+Limitation:
+- Local machine me manually set karna padta hai.
+
+<br>
+
+**Method-2: CI/CD Pipeline Secrets (Azure DevOps/ Github Actions/Gitlab CI ya kisi bhi CI/CD tool me)**:
+
+CI/CD pipelines mein secrets ko use karne ke liye hamesha pipeline variables ka use karo. Secret ko pipeline ke vairbale mein securely create kardo, fir terraform khud se hi enviornment se secret ko pick kar lega.
+
+
+<br>
+
+**Method-3: Cloud Secret Manager (Azure Key Vault/AWS Secret Manager)**:
+
+Ye ek production ka best method hai ki secret ko cloud ke secret manager mein store karke use karo. Isme mein Azure Key Vault ka example dunga.
+
+Terraform secret ko directly cloud ke secret manager se read karta hai.
+
+Azure Key Vault ek cloud secret manager hai ko secret ko securly manage karne ke liye use hota hai.
+
+Example:
+
+Step-1: Secret Key Vault me rakho:
+
+Suppose tumne azure mein ek key vault bana rakha hai aur uske ek secret rakh rakha hai:
+- Name: sp-client-secret
+- Value: xxxxx
+
+Step-2: Terraform se secret read karo:
+
+Terraform mein cloud se kisi bhi resource ki information fetch karne ke liye data_source block ka use kiya jata hai. Isliye cloud ke secret manager se secret ki information ko fetch karne ke liye yaha bhi data_source block ka use karenge.
+
+```
+data "azurerm_key_vault_secret" "sp" {
+  name         = "sp-client-secret"
+  key_vault_id = azurerm_key_vault.kv.id
+}
+```
+
+Step-3: Use karo:
+```
+client_secret = data.azurerm_key_vault_secret.sp.value
+```
+
+Fayde:
+- Secret rotate ho sakta hai
+- Central secure storage
+- Audit logs
+- Enterprise standard
+
+
+Interview Gold Line:
+- For production, we use cloud-native secret managers like Azure Key Vault so Terraform never directly stores secrets in code.
+
+<br>
+
+**Method-4: Terraform Sensitive Variables**:
+
+Ye ek aur method hota hai secrets ko manage karne ke liye, jisme terraform variable block mein variable define karte hain aur saath mein variable ki sestivity true kar dete hain. Jisse secret ki value logs mein hide rehti hai aur Plan/Apply ke output mein masked matlab hidden rehti hai.
+
+Lekin, State file mein ye secret plain text mein aa sakta hai isliye, remote backend secure hona jaruri hai.
+
+Example:
+```
+variable "db_password" {
+  type      = string
+  sensitive = true
+}
+```
+
+<br>
+<br>
+
+### Ab ekdum simple summary yaad rakho
+
+- Kabhi ```.tf``` file me password store nhi karna.
+- Kabhi Git me secret commit/rakhna nhi hai.
+- Kabhi secret Hardcoding nhi karni.
+
+Agar ye follow karoge to secret secure rahega.
+
