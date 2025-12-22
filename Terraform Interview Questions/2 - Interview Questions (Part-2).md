@@ -33,7 +33,7 @@ Inko terraform mein meta arguments bhi bola jata hai.
 <br>
 <br>
 
-### count loop
+### count
 
 ```count``` terraform mein ek meta-argument hai, jo ek tarah se terraform mein loop ki tarah use kiya jata hai.
 
@@ -124,3 +124,9 @@ Terraform ki state file mein pehle 2nd position par qa element tha, lekin tumne 
 
 To yaha pe agar element shift hote hain to delete hoke fir se re-create hoga. Yehi problem hain ```count``` saath.
 
+<br>
+<br>
+
+### for_each
+
+```for_each``` ek key-based loop hai.
