@@ -129,4 +129,70 @@ To yaha pe agar element shift hote hain to delete hoke fir se re-create hoga. Ye
 
 ### for_each
 
-```for_each``` ek key-based loop hai.
+```for_each``` ek key-based loop hai jo key-value pair ke according work karta hai.
+
+Isme simple hum key-value pair mein values de dete hain, aur ye loop ko run karta hai har key-value pair pe, aur key-value ke according recources create karta jata hai.
+
+```for_each``` tab use hota hai jab:
+- Har resource unique identity rakhta ho.
+- Order matter karta ho.
+- Tum keys ke through resource manage karna chahte ho
+
+<br>
+
+**Basic Syntax (Map Example)**
+```
+resource "azurerm_resource_group" "rg" {
+  for_each = {
+    dev  = "eastus"
+    prod = "westus"
+  }
+
+  name     = "rg-${each.key}"
+  location = each.value
+}
+```
+
+Terraform ye resource group bana dega:
+- rg-dev (eastus).
+- rg-prod (westus).
+
+<br>
+
+**each.key & each.value**
+- ```each.key``` → unique name (identity). Ye map ki key hoti hai.
+- ```each.value``` → actual data. Ye map mein key ki value hoti hai.
+
+<br>
+
+**Real-World Use Case of ```for_each````**:
+
+Scenario:
+
+Tumhare paas multiple environments hain:
+- dev
+- qa
+- prod
+
+Har environment:
+- Alag region.
+- Alag config.
+- Alag lifecycle.
+
+```
+variable "environments" {
+  default = {
+    dev  = "eastus"
+    qa   = "centralus"
+    prod = "westus"
+  }
+}
+
+resource "azurerm_resource_group" "rg" {
+  for_each = var.environments
+
+  name     = "rg-${each.key}"
+  location = each.value
+}
+```
+
